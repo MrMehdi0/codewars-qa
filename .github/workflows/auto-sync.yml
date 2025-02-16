@@ -1,0 +1,23 @@
+name: Auto Sync Q&A
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add questions.md
+          git commit -m "[Bot] Auto update questions file" || echo "No changes to commit"
+          git push
